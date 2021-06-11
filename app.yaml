@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ${APPLICATION_NAME}
+  name: java-quarkus
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ${APPLICATION_NAME}
+      app: java-quarkus
   template:
     metadata:
       labels:
-        app: ${APPLICATION_NAME}
+        app: java-quarkus
     spec:
       containers:
-      - name: ${APPLICATION_NAME}
+      - name: java-quarkus
         image: quay.io/pratik10596/java-quarkus
         ports:
         - containerPort: 8080
@@ -21,26 +21,26 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ${APPLICATION_NAME}
+  name: java-quarkus
 spec:
   type: NodePort
   ports:
   - port: 8080
   selector:
-    app: ${APPLICATION_NAME}
+    app: java-quarkus
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: ${APPLICATION_NAME}
+  name: java-quarkus
   annotations:
     kubernetes.io/ingress.class: addon-http-application-routing
 spec:
   rules:
-  - host: ${APPLICATION_NAME}.${HOST_NAME}
+  - host: java-quarkus.${HOST_NAME}
     http:
       paths:
       - backend:
-          serviceName: ${APPLICATION_NAME}
+          serviceName: java-quarkus
           servicePort: 8080
         path: /
